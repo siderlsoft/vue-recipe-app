@@ -16,12 +16,12 @@ export const useRecipeStore = defineStore('recipe', () => {
     const getAllRecipes = computed(() => recipes.value);
 
     //actions
-    async function fetchItems(searchQuery = '', sortBy='', orderBy='') {
+    async function fetchItems(searchQuery = '', sortBy='', orderBy='', filterBy='', filter='') {
         if (isLoading.value || !hasMore.value) return;
 
         isLoading.value = true;
 
-        const auxResponse = await RecipeApi.fetch(skip, limit, searchQuery, sortBy, orderBy);
+        const auxResponse = await RecipeApi.fetch(skip, limit, searchQuery, sortBy, orderBy, filterBy, filter);
         recipes.value.push(...auxResponse.recipes);
         limit = auxResponse.limit;
         skip = skip + limit;

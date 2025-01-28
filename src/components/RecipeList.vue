@@ -27,6 +27,25 @@
                 </select>
             </div>
 
+            <div>
+                <label for="filterBy" class="block text-sm font-medium text-gray-700">Filter by:</label>
+                <select id="filterBy" v-model="filterBy" @change="switchFilter($event)"
+                    class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
+                    <option value="meal-type">category</option>
+                    <option value="tag">ingredient</option>
+                </select>
+            </div>
+
+            <div>
+                <label for="filter" class="block text-sm font-medium text-gray-700">Filter</label>
+                <select id="filter" v-model="filter"
+                    class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
+                    <option v-for="option in filterOptions" :key="option" :value="option">
+                        {{ option }}
+                    </option>
+                </select>
+            </div>
+
             <div class="mt-4">
             <button 
                 @click="handleSearch" 
@@ -56,6 +75,7 @@
 import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 import { useRecipeStore } from '@/store/useRecipeStore';
 import RecipeItem from './RecipeItem.vue';
+import { ingredients, mealCategories } from '@/constants/Constants';
 
 export default defineComponent({
     name: 'RecipeList',
@@ -77,6 +97,11 @@ export default defineComponent({
         const sortBy = ref(sortOptions[0]); // Default sorting option
         const order = ref('asc'); // Default order (ascending)
 
+        // Filter options for dropdown
+        let filterOptions = ref<string[]>([]);
+        const filterBy = ref('');
+        const filter = ref('');
+
         const sentinel = ref<HTMLDivElement | null>(null)
         let observer: IntersectionObserver | null = null
 
@@ -85,6 +110,10 @@ export default defineComponent({
                 clearTimeout(debounceTimeout.value);
             }
             debounceTimeout.value = setTimeout(() => {
+                if (searchQuery.value) {
+                    filter.value = '';
+                    filterBy.value = '';
+                }
                 recipeStore.resetState();
                 recipeStore.fetchItems(searchQuery.value, sortBy.value, order.value);
             }, 300);
@@ -115,8 +144,19 @@ export default defineComponent({
         })
 
         const handleSearch = () => {
+            if (filterBy.value && filter.value) {
+                searchQuery.value = '';
+            }
             recipeStore.resetState();
-            recipeStore.fetchItems(searchQuery.value, sortBy.value, order.value); // Trigger search manually
+            recipeStore.fetchItems(searchQuery.value, sortBy.value, order.value, filterBy.value, filter.value); // Trigger search manually
+        };
+
+        const switchFilter = (event: any) => {
+            if (event.target.value === 'meal-type') {
+                filterOptions.value = mealCategories;
+            } else {
+                filterOptions.value = ingredients;
+            }
         };
 
         return {
@@ -130,6 +170,10 @@ export default defineComponent({
             order,
             sortOptions,
             handleSearch,
+            filterOptions,
+            filterBy,
+            filter,
+            switchFilter,
         };
     },
 });
