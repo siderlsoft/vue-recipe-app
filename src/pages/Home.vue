@@ -1,12 +1,18 @@
 <template>
     <div class="p-5 text-center">
-      <h1 class="text-2xl font-bold">Home Page</h1>
+      <RecipeList/>
     </div>
   </template>
   
   <script lang="ts">
+import RecipeList from '@/components/RecipeList.vue';
+
   export default {
     name: 'Home',
+
+    components: {
+      RecipeList,
+    }
   };
   </script>
   
