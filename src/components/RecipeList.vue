@@ -5,9 +5,10 @@
             <input class="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
                 type="search" name="search" placeholder="Search" v-model="searchQuery" @input="debouncedSearch" />
         </div>
-        <!-- Dropdown for sorting -->
-        <div class="mt-4 flex justify-self-center space-x-4">
-            <div>
+        <!-- Controls -->
+        <div class="mt-4 flex flex-wrap gap-4 justify-start md:justify-center">
+            <!-- Dropdown for sorting -->
+            <div class="w-full sm:w-auto">
                 <label for="sortBy" class="block text-sm font-medium text-gray-700">Sorted by:</label>
                 <select id="sortBy" v-model="sortBy"
                     class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
@@ -18,7 +19,7 @@
             </div>
 
             <!-- Dropdown for ascending or descending -->
-            <div>
+            <div class="w-full sm:w-auto">
                 <label for="order" class="block text-sm font-medium text-gray-700">Order</label>
                 <select id="order" v-model="order"
                     class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
@@ -27,7 +28,8 @@
                 </select>
             </div>
 
-            <div>
+            <!-- Dropdown for filterBy -->
+            <div class="w-full sm:w-auto">
                 <label for="filterBy" class="block text-sm font-medium text-gray-700">Filter by:</label>
                 <select id="filterBy" v-model="filterBy" @change="switchFilter($event)"
                     class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
@@ -36,7 +38,8 @@
                 </select>
             </div>
 
-            <div>
+            <!-- Dropdown for filter -->
+            <div class="w-full sm:w-auto">
                 <label for="filter" class="block text-sm font-medium text-gray-700">Filter</label>
                 <select id="filter" v-model="filter"
                     class="border-2 border-gray-300 bg-white h-10 px-4 rounded-lg text-sm focus:outline-none">
@@ -46,23 +49,20 @@
                 </select>
             </div>
 
-            <div class="mt-4">
-            <button 
-                @click="handleSearch" 
-                class="bg-blue-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                Search
-            </button>
-            <button 
-                @click="clearControls" 
-                class="bg-red-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-red-500 ml-3">
-                Clear
-            </button>
-            <button 
-                @click="addNewRecipe" 
-                class="bg-green-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-green-500 ml-3">
-                + New
-            </button>
-        </div>
+            <div class="w-full sm:w-auto flex gap-3 mt-4 sm:mt-">
+                <button @click="handleSearch"
+                    class="bg-blue-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 w-full sm:w-auto">
+                    Search
+                </button>
+                <button @click="clearControls"
+                    class="bg-red-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 ml-3 w-full sm:w-auto">
+                    Clear
+                </button>
+                <button @click="addNewRecipe"
+                    class="bg-green-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 ml-3 w-full sm:w-auto">
+                    + New
+                </button>
+            </div>
         </div>
 
         <ul>
