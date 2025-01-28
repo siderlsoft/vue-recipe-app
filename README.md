@@ -2,6 +2,8 @@
 
 This project is a Vue 3 application with TypeScript, built using Vite as the development build tool. The application allows users to search, filter, and sort recipes by consuming a public API (`https://dummyjson.com/docs/recipes`). Also allows to create, modify and remove recipes from the state. It utilizes several modern tools and libraries to enhance the development experience and the application's functionality.
 
+You can test the application in: https://mediumpurple-barracuda-956691.hostingersite.com/
+
 ### Technologies Used:
 - **Vue.js 3**: A modern JavaScript framework for building user interfaces.
 - **TypeScript**: Adds type safety to JavaScript, improving maintainability and developer productivity.
