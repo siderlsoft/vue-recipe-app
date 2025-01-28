@@ -37,11 +37,25 @@ export const useRecipeStore = defineStore('recipe', () => {
     }
 
     function addRecipe(newRecipe: Recipe) {
+        newRecipe.id = 50 + recipes.value.length;
         recipes.value.push(newRecipe);
     }
 
     function removeRecipe(recipeId: number) {
         recipes.value = recipes.value.filter(recipe => recipe.id !== recipeId);
+    }
+
+    function getRecipeById(recipeId: number) {
+        return recipes.value.find(recipe => recipe.id == recipeId);
+    }
+
+    function updateRecipe(editedRecipe: Recipe) {
+        recipes.value = recipes.value.map(recipe => {
+            if (recipe.id === editedRecipe.id) {
+                return editedRecipe;
+            }
+            return recipe;
+        })
     }
 
     return {
@@ -54,5 +68,7 @@ export const useRecipeStore = defineStore('recipe', () => {
         fetchItems,
         resetState,
         removeRecipe,
+        getRecipeById,
+        updateRecipe,
     };
 });

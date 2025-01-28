@@ -52,6 +52,16 @@
                 class="bg-blue-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                 Search
             </button>
+            <button 
+                @click="clearControls" 
+                class="bg-red-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-red-500 ml-3">
+                Clear
+            </button>
+            <button 
+                @click="addNewRecipe" 
+                class="bg-green-500 text-white h-10 px-6 rounded-lg text-sm hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-green-500 ml-3">
+                + New
+            </button>
         </div>
         </div>
 
@@ -76,6 +86,7 @@ import { defineComponent, computed, ref, onMounted, onBeforeUnmount } from 'vue'
 import { useRecipeStore } from '@/store/useRecipeStore';
 import RecipeItem from './RecipeItem.vue';
 import { ingredients, mealCategories } from '@/constants/Constants';
+import { useRouter } from 'vue-router';
 
 export default defineComponent({
     name: 'RecipeList',
@@ -91,6 +102,7 @@ export default defineComponent({
         const hasMore = computed(() => recipeStore.hasMore);
         const searchQuery = ref('');
         const debounceTimeout = ref<number | null>(null);
+        const router = useRouter();
 
         // Sort options for dropdown
         const sortOptions = ['id', 'name', 'rating']; // Options for sorting
@@ -121,7 +133,9 @@ export default defineComponent({
 
         // 1) Fetch the first batch of items on mount
         onMounted(() => {
-            recipeStore.fetchItems()
+            if (recipes.value.length === 0) {
+                recipeStore.fetchItems()
+            }
 
             // 2) Create and observe sentinel
             if (sentinel.value) {
@@ -159,6 +173,15 @@ export default defineComponent({
             }
         };
 
+        const clearControls = () => {
+            recipeStore.resetState();
+            recipeStore.fetchItems()
+        }
+
+        const addNewRecipe = () => {
+            router.push({ name: 'CreateRecipe' });
+        }
+
         return {
             recipes,
             isLoading,
@@ -174,6 +197,8 @@ export default defineComponent({
             filterBy,
             filter,
             switchFilter,
+            clearControls,
+            addNewRecipe,
         };
     },
 });
