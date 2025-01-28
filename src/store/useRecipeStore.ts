@@ -40,6 +40,10 @@ export const useRecipeStore = defineStore('recipe', () => {
         recipes.value.push(newRecipe);
     }
 
+    function removeRecipe(recipeId: number) {
+        recipes.value = recipes.value.filter(recipe => recipe.id !== recipeId);
+    }
+
     return {
         recipes,
         isLoading,
@@ -49,5 +53,6 @@ export const useRecipeStore = defineStore('recipe', () => {
         addRecipe,
         fetchItems,
         resetState,
+        removeRecipe,
     };
 });
